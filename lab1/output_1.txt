@@ -1,4 +1,3 @@
-?- 
 % c:/users/local/documents/prolog/klocki1 compiled 0.00 sec, 0 clauses
 ?- na(d,c).
 true.
@@ -6,8 +5,7 @@ true.
 ?- na(c,a).
 true.
 
-?- na(b,c)
-|    .
+?- na(b,c).
 false.
 
 ?- na(x,c).
@@ -19,8 +17,7 @@ X = d.
 ?- na(c,X).
 X = a .
 
-?- na(c,X)
-|    .
+?- na(c,X).
 X = a ;
 X = b.
 
@@ -49,11 +46,6 @@ Y = b.
 X = c ;
 X = c.
 
-?- print(NIKODEM PRZYBYSZEWSKI).
-ERROR: Syntax error: Operator expected
-ERROR: print(NIKODEM
-ERROR: ** here **
-ERROR:  PRZYBYSZEWSKI) . 
 ?- print('NIKODEM PRZYBYSZEWSKI').
 'NIKODEM PRZYBYSZEWSKI'
 true.
