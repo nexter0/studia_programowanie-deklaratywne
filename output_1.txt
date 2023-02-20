@@ -1,0 +1,61 @@
+?- 
+% c:/users/local/documents/prolog/klocki1 compiled 0.00 sec, 0 clauses
+?- na(d,c).
+true.
+
+?- na(c,a).
+true.
+
+?- na(b,c)
+|    .
+false.
+
+?- na(x,c).
+false.
+
+?- na(X, c).
+X = d.
+
+?- na(c,X).
+X = a .
+
+?- na(c,X)
+|    .
+X = a ;
+X = b.
+
+?- na(X, Y).
+X = c,
+Y = a ;
+X = c,
+Y = b ;
+X = d,
+Y = c.
+
+?- na(_,c).
+true.
+
+?- na(c,_).
+true ;
+true.
+
+?- na(X,c), na(c,Y).
+X = d,
+Y = a ;
+X = d,
+Y = b.
+
+?- na(_,X), na(X,_).
+X = c ;
+X = c.
+
+?- print(NIKODEM PRZYBYSZEWSKI).
+ERROR: Syntax error: Operator expected
+ERROR: print(NIKODEM
+ERROR: ** here **
+ERROR:  PRZYBYSZEWSKI) . 
+?- print('NIKODEM PRZYBYSZEWSKI').
+'NIKODEM PRZYBYSZEWSKI'
+true.
+
+?- 
