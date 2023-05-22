@@ -21,9 +21,9 @@ sejf('Szafa pancerna EXT 22A V100',
 sejf('Szafa pancerna EXT 22C-B V120',
      szafa, duży, 75000, 26450, biometria).
 sejf('Sejf domowy D 22-11',
-     domowy, 'Średni', 20000, 1800, szyfr).
+     domowy, średni, 20000, 1800, szyfr).
 sejf('Sejf antywłamaniowy MAG3-223EX',
-     biurowy, 'Średni', 50000, 6500, szyfr).
+     biurowy, średni, 50000, 6500, szyfr).
 sejf('Sejf na laptopa HS 420-02 V110',
      hotelowy, mały, 2000, 950, elektroniczny).
 sejf('Sejf na dokumenty HS 421-DC V100',
@@ -39,9 +39,9 @@ sejf('Sejf na biżuterię D 38EB-BE',
 sejf('Sejf domowy D ER93-E2',
      domowy, mały, 5000, 1450, szyfr).
 sejf('Sejf na broń GU2-EXT EXTRA',
-     na_broń, 'Średni', 50000, 11300, elektroniczny).
+     na_broń, średni, 50000, 11300, elektroniczny).
 sejf('Sejf na broń GU1-B',
-     na_broń, 'Średni', 50000, 4950, szyfr).
+     na_broń, średni, 50000, 4950, szyfr).
 sejf('Sejf na laptopa HS 410-0H',
      hotelowy, mały, 3000, 2100, szyfr).
 sejf('Sejf na dokumenty D 421-DC V120',
@@ -91,16 +91,16 @@ rozmiar(Sejf, Rozmiar):-(dowolny(Rozmiar), !); (sejf(Sejf,_,RozmSejf,_,_,_), Roz
 zamek(Sejf, Zamek):-(dowolny(Zamek), !); (sejf(Sejf,_,_,_,_,ZamekSejf), ZamekSejf==Zamek).
 
 % >> predykat filtruj/5: <<
-filtruj(X, FBudzet, FTyp, FRozmiar, FZamek):-sejf(X,_,_,_,_,_),
+filtruj(X, FBudzet, FTyp, FRozmiar, FZamek, FWartosc):-sejf(X,_,_,_,_,_),
     cenaMax(X,FBudzet),
     typ(X,FTyp),
     rozmiar(X,FRozmiar),
-    zamek(X,FZamek).
+    zamek(X,FZamek),
+    wartosc(X,FWartosc).
 
 % >> predykat asystent/0: <<
 % funkcja główna programu -- interakcja z użytkownikiem
 asystent:-
-    writeln('Odpowiedz na poniższe pytania wpisując odpowiedzi sugerowane w nawiasach.').
     write('Jaki budżet posiadasz? (podaj maksymalną cenę sejfu w zł)'),
     read(ABudzet),
     write('Jaki rodzaj sejfu? (domowy/biurowy/szafa/na_broń/hotelowy)'),
@@ -110,8 +110,8 @@ asystent:-
     write('Jakiego typu zabezpieczenie? (klucz/szyfr/elektryczny)'),
     read(AZamek),
     write('Jaką wartość w przybliżeniu będzie miała zawartość sejfu (w zł)'),
-    read(AZamek),
-    findall(Sejf, filtruj(Sejf, ABudzet, ATyp, ARozmiar, AZamek), SejfLista),
+    read(AWartosc),
+    findall(Sejf, filtruj(Sejf, ABudzet, ATyp, ARozmiar, AZamek, AWartosc), SejfLista),
 	wypisz_sejfy(SejfLista).
 
 % >> predykat wypisz_sejfy/1: <<
