@@ -61,7 +61,7 @@ wypisz_sejf(Y,X,_,_,_,_):-write(X), write(Y), nl, fail.
 % wartosc(Sejf, Wartosc) - spełniony, gdy sejf Sejf może przechowywać 
 % przedmioty o wartości conajmniej Wartosc 
 % wartosc(Sejf, 20000).	
-wartosc(Sejf, Wartosc):-(dowolny(Cena), !);
+wartosc(Sejf, Wartosc):-(dowolny(Wartosc), !);
     sejf(Sejf,_,_,WarSejf,_,_), WarSejf>=Wartosc.
 
 % >> predykat cenaMax/2: <<
@@ -127,4 +127,15 @@ asystent:-
 wypisz_sejfy([]). % warunek stopu
 wypisz_sejfy([H|T]) :-
   writeln(H),
-  wypisz_sejfy(T).
+  wypisz_sejfy(T).  
+
+koszyk(KoszykLista) :-
+    write('Podaj nazwę sejfu (lub wpisz koniec)'),
+    read(Nazwa),
+    dodaj_sejf(Nazwa, KoszykLista).
+
+dodaj_sejf(koniec, []) :- !.
+dodaj_sejf(Nazwa, [Nazwa | Reszta]) :-
+    koszyk(Reszta).
+
+    
