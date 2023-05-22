@@ -29,3 +29,26 @@ sejf('Sejf na dokumenty HS 421-DC V100',
      'Hotelowy', 'Mały', 5000, 1500, 'Elektroniczny').
 sejf('Sejf biometryczny HS 420-02 V110',
      'Hotelowy', 'Mały', 5000, 3100, 'Biometria').
+
+sejf(Y,X,_,_,_,_):-write(X),write(Y),nl,fail.
+
+zapytanie:-write('Do czego potrzebny jest sejf? (na bron/na przechowywanie pieniedzy/na przechowywanie rzeczy'),
+    read(question),
+    dla_odpowiedzi(question).
+% predykat wartosc/2
+/* wartosc(Sejf, Wartosc) - spełniony, gdy sejf Sejf może przechowywać 
+   przedmioty o wartości conajmniej Wartosc */
+wartosc(Sejf, Wartosc):-sejf(Sejf,_,_,WarSejf,_,_), WarSejf>=Wartosc, !.
+
+% predykat cenaMax/2
+/* cenaMax(Sejf, Cena) - spełniony, gdy sejf Sejf jest niedroższy niż
+ * podana Cena */
+cenaMax(Sejf, Cena):-sejf(Sejf,_,_,_,CenaSejf,_), CenaSejf=<Cena, !.
+
+zapytanie:-write('Do czego potrzebny jest sejf? (na_bron/na_przechowywanie_pieniedzy/na_przechowywanie_rzeczy'),
+    read(Question),
+    dla_odpowiedzi(Question).
+dla_odpowiedzi(na_bron):-sejf(X,Y,_,_,_,_),Y=='Na broń',write(X).
+dla_odpowiedzi(na_przechowywanie_pieniedzy):-sejf(X,Y,_,_,_,_),Y=='Biurowy',write(X).
+dla_odpowiedzi(na_przechowywanie_rzeczy):-sejf(X,Y,_,_,_,_),Y=='Biurowy',write(X).
+
