@@ -61,36 +61,44 @@ wypisz_sejf(Y,X,_,_,_,_):-write(X), write(Y), nl, fail.
 % wartosc(Sejf, Wartosc) - spełniony, gdy sejf Sejf może przechowywać 
 % przedmioty o wartości conajmniej Wartosc 
 % wartosc(Sejf, 20000).	
-wartosc(Sejf, Wartosc):-sejf(Sejf,_,_,WarSejf,_,_), WarSejf>=Wartosc.
+wartosc(Sejf, Wartosc):-(dowolny(Cena), !);
+    sejf(Sejf,_,_,WarSejf,_,_), WarSejf>=Wartosc.
 
 % >> predykat cenaMax/2: <<
 % cenaMax(Sejf, Cena) - spełniony, gdy sejf Sejf jest niedroższy niż podana Cena lub Cena == dowolny
-% cenaMax(X, 2000),														 */
-cenaMax(Sejf, Cena):-(dowolny(Cena), !); (sejf(Sejf,_,_,_,CenaSejf,_), CenaSejf=<Cena).
+% cenaMax(X, 2000),
+cenaMax(Sejf, Cena):-(dowolny(Cena), !); 
+    (sejf(Sejf,_,_,_,CenaSejf,_), CenaSejf=<Cena).
 
 % >> predykat cenaMin/2: <<
 % cenaMin(Sejf, Cena) - spełniony, gdy sejf Sejf kosztuje conajmniej podaną Cena lub Cena == dowolny
-% cenaMin(X, 2000).															*/
-cenaMin(Sejf, Cena):-(dowolny(Cena), !); (sejf(Sejf,_,_,_,CenaSejf,_), CenaSejf>=Cena).
+% cenaMin(X, 2000).
+cenaMin(Sejf, Cena):-(dowolny(Cena), !); 
+    (sejf(Sejf,_,_,_,CenaSejf,_), CenaSejf>=Cena).
 
 
 % >> predykat typ/2: <<
 % typ(Sejf, Typ) - spełniony, gdy sejf Sejf jest typu Typ lub Typ == dowolny. 
-% typ(X, biurowy).													*/
-typ(Sejf, Typ):-(dowolny(Typ), !); (sejf(Sejf,TypSejf,_,_,_,_), TypSejf==Typ).
+% typ(X, biurowy).
+typ(Sejf, Typ):-(dowolny(Typ), !); 
+    (sejf(Sejf,TypSejf,_,_,_,_), TypSejf==Typ).
 
 
 % >> predykat rozmiar/2: <<
 % rozmiar(Sejf, Rozmiar) - spełniony, gdy sejf Sejf jest rozmiaru Rozmiar lub Rozmiar == dowolny. 
 % rozmiar(X, średni).
-rozmiar(Sejf, Rozmiar):-(dowolny(Rozmiar), !); (sejf(Sejf,_,RozmSejf,_,_,_), RozmSejf==Rozmiar).
+rozmiar(Sejf, Rozmiar):-(dowolny(Rozmiar), !); 
+    (sejf(Sejf,_,RozmSejf,_,_,_), RozmSejf==Rozmiar).
 
 % >> predykat zamek/2: <<
 % zamek(Sejf, Rozmiar) - spełniony, gdy sejf Sejf wyposażono w zamek typu Zamek lub Zamek == dowolny. 
 % zamek(X, klucz).
-zamek(Sejf, Zamek):-(dowolny(Zamek), !); (sejf(Sejf,_,_,_,_,ZamekSejf), ZamekSejf==Zamek).
+zamek(Sejf, Zamek):-(dowolny(Zamek), !); 
+    (sejf(Sejf,_,_,_,_,ZamekSejf), ZamekSejf==Zamek).
 
 % >> predykat filtruj/5: <<
+% filtruj(X, FBudzet, FTyp, FRozmiar, FZamek, FWartosc) - spełniony, gdy sejf o nazwie X
+% spełnia założenia predykatów cenaMax/2, typ/2, rozmiar/2, zamek/2, wartosc/2
 filtruj(X, FBudzet, FTyp, FRozmiar, FZamek, FWartosc):-sejf(X,_,_,_,_,_),
     cenaMax(X,FBudzet),
     typ(X,FTyp),
