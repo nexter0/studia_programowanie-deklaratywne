@@ -55,7 +55,9 @@ sejf('Szafa przeciwpożarowa EPX SV15 V100',
 % dowolny(X) - spełniony, gdy X == dowolny
 dowolny(X):- X==dowolny.
 
-wypisz_sejf(Y,X,_,_,_,_):-write(X), write(Y), nl, fail.
+% >> predykat wypisz_cena/2: <<
+% wypisz_cena(Sejf, Cena) - spełniony, gdy sejf Sejf ma cenę równą Cena
+wypisz_cena(Sejf, Cena):-sejf(Sejf,_,_,_,Cena,_).
 
 % >> predykat wartosc/2: <<
 % wartosc(Sejf, Wartosc) - spełniony, gdy sejf Sejf może przechowywać 
@@ -96,7 +98,7 @@ rozmiar(Sejf, Rozmiar):-(dowolny(Rozmiar), !);
 zamek(Sejf, Zamek):-(dowolny(Zamek), !); 
     (sejf(Sejf,_,_,_,_,ZamekSejf), ZamekSejf==Zamek).
 
-% >> predykat filtruj/5: <<
+% >> predykat filtruj/6: <<
 % filtruj(X, FBudzet, FTyp, FRozmiar, FZamek, FWartosc) - spełniony, gdy sejf o nazwie X
 % spełnia założenia predykatów cenaMax/2, typ/2, rozmiar/2, zamek/2, wartosc/2
 filtruj(X, FBudzet, FTyp, FRozmiar, FZamek, FWartosc):-sejf(X,_,_,_,_,_),
@@ -115,25 +117,31 @@ asystent:-
     read(ATyp),
     write('Jakiego rozmiaru sejfu poszukujesz? (mały/średni/duży)'),
     read(ARozmiar),
-    write('Jakiego typu zabezpieczenie? (klucz/szyfr/elektryczny)'),
+    write('Jakiego typu zabezpieczenie? (klucz/szyfr/elektryczny/biometria)'),
     read(AZamek),
     write('Jaką wartość w przybliżeniu będzie miała zawartość sejfu (w zł)'),
     read(AWartosc),
     findall(Sejf, filtruj(Sejf, ABudzet, ATyp, ARozmiar, AZamek, AWartosc), SejfLista),
-	wypisz_sejfy(SejfLista).
+	wypisz_sejfy(SejfLista),
+    !.
 
 % >> predykat wypisz_sejfy/1: <<
 % wypisuje rekurencyjnie zawartość listy
-wypisz_sejfy([]). % warunek stopu
+wypisz_sejfy([]):- !. % warunek stopu
 wypisz_sejfy([H|T]) :-
   writeln(H),
-  wypisz_sejfy(T).  
+  wypisz_sejfy(T),
+  !.  
 
+% >> predykat koszyk/1: <<
+% koszyk(Lista) - pobiera nazwy sejfów i dopisuje je do listy
 koszyk(KoszykLista) :-
     write('Podaj nazwę sejfu (lub wpisz koniec)'),
     read(Nazwa),
     dodaj_sejf(Nazwa, KoszykLista).
 
+% >> predykat dodaj_sejf/2: <<
+% dodaje rekurencyjnie sejfy do tablicy
 dodaj_sejf(koniec, []) :- !.
 dodaj_sejf(Nazwa, [Nazwa | Reszta]) :-
     koszyk(Reszta).
