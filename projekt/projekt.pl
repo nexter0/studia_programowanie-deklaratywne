@@ -1,54 +1,100 @@
 % sejfy i kasy pancerne
-% sejf/6
-% sejf(Nazwa, Typ, Rozmiar, LimitWartosci, Cena, Zamek)
+% predykat sejf/6:
+% sejf(Nazwa, Typ, Rozmiar, LimitWartosci, Cena, Zamek) - definicja sejfu
+
 sejf('Sejf domowy D 109-08', 
-     'Domowy', 'Mały', 20000, 700, 'Klucz').
+     'Domowy', mały, 20000, 700, klucz).
 sejf('Sejf antywłamaniowy F 103-01 Blanco',
-     'Biurowy', 'Mały', 20000, 1200, 'Klucz').
+     biurowy, mały, 20000, 1200, klucz).
 sejf('Sejf biurowy HTIV 415-21',
-     'Biurowy', 'Mały', 150000, 1200, 'Szyfr').
+     biurowy, mały, 150000, 1200, szyfr).
 sejf('Sejf na broń długą WT 270-01',
-     'Na broń', 'Duży', 20000, 3500, 'Szyfr').
+     na_broń, duży, 20000, 3500, szyfr).
 sejf('Sejf na broń krótką WS 145-01',
-     'Na broń', 'Mały', 2500, 1000, 'Klucz').
+     na_broń, mały, 2500, 1000, klucz).
 sejf('Szafa pancerna EP 233-2A',
-     'Szafa', 'Duży', 50000, 5400, 'Klucz').
+     szafa, duży, 50000, 5400, klucz).
 sejf('Szafa pancerna EPX 238-SX',
-     'Szafa', 'Duży', 100000, 8300, 'Szyfr').
+     szafa, duży, 100000, 8300, szyfr).
 sejf('Szafa pancerna EXT 22A V100',
-     'Szafa', 'Duży', 75000, 11000, 'Elektroniczny').
+     szafa, duży, 75000, 11000, elektroniczny).
 sejf('Szafa pancerna EXT 22C-B V120',
-     'Szafa', 'Duży', 75000, 26450, 'Biometria').
+     szafa, duży, 75000, 26450, biometria).
 sejf('Sejf domowy D 22-11',
-     'Domowy', 'Średni', 20000, 1800, 'Szyfr').
+     'Domowy', 'Średni', 20000, 1800, szyfr).
 sejf('Sejf antywłamaniowy MAG3-223EX',
-     'Biurowy', 'Średni', 50000, 6500, 'Szyfr').
+     biurowy, 'Średni', 50000, 6500, szyfr).
 sejf('Sejf na laptopa HS 420-02 V110',
-     'Hotelowy', 'Mały', 2000, 950, 'Elektroniczny').
+     hotelowy, mały, 2000, 950, elektroniczny).
 sejf('Sejf na dokumenty HS 421-DC V100',
-     'Hotelowy', 'Mały', 5000, 1500, 'Elektroniczny').
+     hotelowy, mały, 5000, 1500, elektroniczny).
 sejf('Sejf biometryczny HS 420-02 V110',
-     'Hotelowy', 'Mały', 5000, 3100, 'Biometria').
+     hotelowy, mały, 5000, 3100, biometria).
 
-sejf(Y,X,_,_,_,_):-write(X),write(Y),nl,fail.
 
-zapytanie:-write('Do czego potrzebny jest sejf? (na bron/na przechowywanie pieniedzy/na przechowywanie rzeczy'),
-    read(question),
-    dla_odpowiedzi(question).
-% predykat wartosc/2
+wypisz_sejf(Y,X,_,_,_,_):-write(X), write(Y), nl, fail.
+
+% predykat wartosc/2:
 /* wartosc(Sejf, Wartosc) - spełniony, gdy sejf Sejf może przechowywać 
-   przedmioty o wartości conajmniej Wartosc */
-wartosc(Sejf, Wartosc):-sejf(Sejf,_,_,WarSejf,_,_), WarSejf>=Wartosc, !.
+ * przedmioty o wartości conajmniej Wartosc 
+ * wartosc(Sejf, 20000).											 */
+wartosc(Sejf, Wartosc):-sejf(Sejf,_,_,WarSejf,_,_), WarSejf>=Wartosc.
 
-% predykat cenaMax/2
-/* cenaMax(Sejf, Cena) - spełniony, gdy sejf Sejf jest niedroższy niż
- * podana Cena */
-cenaMax(Sejf, Cena):-sejf(Sejf,_,_,_,CenaSejf,_), CenaSejf=<Cena, !.
+% predykat cenaMax/2:
+/* cenaMax(Sejf, Cena) - spełniony, gdy sejf Sejf jest niedroższy niż podana Cena
+ * cenaMax(X, 2000),														 */
+cenaMax(Sejf, Cena):-sejf(Sejf,_,_,_,CenaSejf,_), CenaSejf=<Cena.
 
-zapytanie:-write('Do czego potrzebny jest sejf? (na_bron/na_przechowywanie_pieniedzy/na_przechowywanie_rzeczy'),
+% predykat cenaMin/2:
+/* cenaMin(Sejf, Cena) - spełniony, gdy sejf Sejf kosztuje conajmniej podaną Cena 
+ * cenaMin(X, 2000).															*/
+cenaMin(Sejf, Cena):-sejf(Sejf,_,_,_,CenaSejf,_), CenaSejf>=Cena.
+
+
+% predykat typ/2:
+/* typ(Sejf, Typ) - spełniony, gdy sejf Sejf jest typu Typ. 
+ * typ(X, 'Biurowy').									*/
+typ(Sejf, Typ):-sejf(Sejf,TypSejf,_,_,_,_), TypSejf==Typ.
+
+
+% predykat rozmiar/2:
+/* rozmiar(Sejf, Rozmiar) - spełniony, gdy sejf Sejf jest rozmiaru Rozmiar. 
+ * rozmiar(X, 'Średni').												*/	
+rozmiar(Sejf, Rozmiar):-sejf(Sejf,_,RozmSejf,_,_,_), RozmSejf==Rozmiar.
+
+% predykat zamek/2:
+/* zamek(Sejf, Rozmiar) - spełniony, gdy sejf Sejf wyposażono w zamek typu Zamek. 
+ * zamek(X, 'Klucz').												*/	
+zamek(Sejf, Zamek):-sejf(Sejf,_,_,_,_,ZamekSejf), ZamekSejf==Zamek.
+
+% predykat filtruj/3:
+filtruj(X, FBudzet, FZawartosc, FRozmiar):-sejf(X,Y,_,_,_,_),
+    cenaMax(X,FBudzet),
+    Y==FZawartosc,
+    rozmiar(X,FRozmiar).
+
+% predykat asystent/0:
+
+asystent:-
+    write('Jaki budżet posiadasz? (Podaj maksymalną cenę sejfu w zł: )'),
+    read(ABudzet),
+    write('Jaki rodzaj sejfu? (domowy/biurowy/szafa/na broń)'),
+    read(AZawartosc),
+    write('Jakiego rozmiaru sejfu poszukujesz? (mały/średni/duży)'),
+    read(ARozmiar),
+    findall(Sejf, filtruj(Sejf, ABudzet, AZawartosc, ARozmiar), SejfList),
+	print_sejf_list(SejfList).
+	
+print_sejf_list([]).
+print_sejf_list([Sejf|Rest]) :-
+  writeln(Sejf),
+  print_sejf_list(Rest).
+
+
+/*zapytanie:-write('Do czego potrzebny jest sejf? (na_bron/na_przechowywanie_pieniedzy/na_przechowywanie_rzeczy/na_przechowywanie_rzeczy_gości)'),
     read(Question),
     dla_odpowiedzi(Question).
 dla_odpowiedzi(na_bron):-sejf(X,Y,_,_,_,_),Y=='Na broń',write(X).
-dla_odpowiedzi(na_przechowywanie_pieniedzy):-sejf(X,Y,_,_,_,_),Y=='Biurowy',write(X).
-dla_odpowiedzi(na_przechowywanie_rzeczy):-sejf(X,Y,_,_,_,_),Y=='Biurowy',write(X).
-
+dla_odpowiedzi(na_przechowywanie_pieniedzy):-sejf(X,Y,_,_,_,_),(Y=='Biurowy';Y=='Szafa'),write(X).
+dla_odpowiedzi(na_przechowywanie_rzeczy):-sejf(X,Y,_,_,_,_),(Y=='Biurowy';Y=='Szafa'),write(X).
+dla_odpowiedzi(na_przechowywanie_rzeczy_gości):-sejf(X,Y,_,_,_,_),(Y=='Hotelowy';Y=='Szafa'),write(X). */
